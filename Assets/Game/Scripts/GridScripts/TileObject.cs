@@ -1,48 +1,63 @@
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class TileObject : MonoBehaviour {
 
     [SerializeField] private TilePosition tilePosition;   
-    private SpriteRenderer spriteRenderer;
-    [SerializeField] private Text textDebug;
-    
-    //Quebra Galho
-    private GridSystem gridSystem;
-    //private GridObject gridObject;
+    private SpriteRenderer spriteRenderer; 
 
-    //private List<Unit> unitList;
-    //private GridSystem<GridObject> gridSystem;
-
+    private List<Unit> unitList;
+    private int ZPosition;
+    private void Awake() {
+        unitList = new List<Unit>();
+    }
     private void Start() {
-        textDebug = GetComponentInChildren<Text>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        //SetTileObjectManual();
     }
     private void Update() {
-        /*if (textDebug != null)
-            textDebug.text = gridObject.ToString();*/
 
         if (Input.GetMouseButtonDown(0))
         {
             Hide();
         }
     }
-    public TileObject(TilePosition tilePosition) {
-        this.tilePosition = tilePosition;
-    }
+   
     public void Show() {
         spriteRenderer.color = new Color(1 , 1 , 1 , 1);
     }
     public void Hide() {
         spriteRenderer.color = new Color(1 , 1 , 1 , 0);
     }
-
-    public void SetTilePosition(int x , int y) {
-        tilePosition = new TilePosition(x , y);
+    #region Unit Manager
+    public void AddUnit(Unit unit) {
+       
+        unitList.Add(unit);
     }
-    public void SetGridSystem(GridSystem gridSystem) {
-        this.gridSystem = gridSystem;
+    public void RemoveUnit(Unit unit) {
+        unitList.Remove(unit);
+    }
+    public bool HasEnyUnit() {
+        return unitList.Count > 0;
+    }
+
+    public Unit GetUnit() {
+        //Pega a primeira Unidade
+        if (HasEnyUnit())
+        {
+            return unitList[0];
+        }
+        return null;
+    }
+    #endregion
+    public void SetTilePosition(int x , int y,int z) {
+        tilePosition = new TilePosition(x , y);
+        this.ZPosition = z;
+    }
+    public List<Unit> GetUnitList() => unitList;
+    public int GetZPosition() => ZPosition;
+    public TilePosition GetTilePosition() => tilePosition;
+    public override string ToString() {
+        return tilePosition.ToString();
     }
     /*public void SetTileObject(GridObject gridObject) {
         this.gridObject = gridObject;

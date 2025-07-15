@@ -8,9 +8,7 @@ public class MouseController : MonoBehaviour
     private void Awake() {
         instance = this;
     }
-    void Update() {
-       
-        //transform.position = MouseWorldPos();      
+    void Update() {    
 
     }
     public static Vector2 MouseWorldPos2D() {
@@ -29,6 +27,19 @@ public class MouseController : MonoBehaviour
         if (hits.Length > 0)
         {
             return hits.OrderByDescending(i => i.collider.transform.position.z).First();
+        }
+        return null;
+    }
+    //Podemos criar uma unica função para pegar qualquer objeto
+    public static Unit? GetFocusOnUnit() {
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 mousePos2D = new Vector2(mousePos.x , mousePos.y);
+
+        RaycastHit2D[] hits = Physics2D.RaycastAll(mousePos2D , Vector2.zero , float.MaxValue , 1 << 6);
+        if (hits.Length > 0)
+        {
+            RaycastHit2D rayhit = hits.OrderByDescending(i => i.collider.transform.position.z).First();
+            return rayhit.collider.GetComponent<Unit>();
         }
         return null;
     }

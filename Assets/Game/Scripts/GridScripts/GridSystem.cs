@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+
 public class GridSystem 
 {
-    public Tilemap tilemap;
-    //Reconhece se há um outro na altura desse, ai apaga e pões a altura correta
+    public Tilemap tilemap;   
+    private TileObject[,] tileObjectsArray;
     public Dictionary<Vector2Int , TileObject> DictionaryMap;
-    //   private GridObject[,] gridObjectArray;
+    private Dictionary<TilePosition , TileObject> tileObjectDictionary;
 
 
     public GridSystem(Transform GridPrefab , Tilemap tileMap , Transform GameObjectParrent) {
@@ -19,7 +20,7 @@ public class GridSystem
         int PosY = MBounds.y;
 
         DictionaryMap = new Dictionary<Vector2Int , TileObject>();
-
+        tileObjectDictionary = new Dictionary<TilePosition , TileObject>();
         for (int z = MBounds.max.z; z > MBounds.min.z; z--)
         {
             for (int y = MBounds.min.y; y < MBounds.max.y; y++)
@@ -40,20 +41,36 @@ public class GridSystem
                         Tile.GetComponent<SpriteRenderer>().sortingOrder = CurrentTilemap.GetComponent<TilemapRenderer>().sortingOrder + 1;
                         PosX++;
                         PosY++;
-                        Debug.Log($"{PosX} + {PosY}");
 
 
 
                         TilePosition pos = new TilePosition(PosX , PosY);
                         TileObject tileObject = Tile.GetComponent<TileObject>();
-                        //gridObjectArray[x , y] = new GridObject(this , pos);
-                        tileObject.SetTilePosition(PosX , PosY);
-                        tileObject.SetGridSystem(this);
+                        tileObject.SetTilePosition(PosX, PosY , z);
                         DictionaryMap.Add(tileKey , tileObject);
+                        tileObjectDictionary.Add(pos , tileObject);
+                        Debug.Log("Foi criado o tile:  " + tileObjectDictionary[pos].ToString());
                     }
 
                 }
             }
         }
+    }
+    public TileObject GetTileObject(TilePosition tile) {
+        if (tileObjectDictionary.ContainsKey(tile))
+        {
+            return tileObjectDictionary[tile];
+        }
+        return null;
+
+    }
+    //Servirá para saber o limite da grid (Mudar o nome da função ta pais :/)
+    public TilePosition GetTilePosition(TilePosition tile) {
+        if (tileObjectDictionary.ContainsKey(tile))
+        {
+            return tileObjectDictionary[tile].GetTilePosition();
+        }
+        return new TilePosition();
+
     }
 }
