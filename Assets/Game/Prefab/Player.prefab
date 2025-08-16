@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 109638740713187334}
   - component: {fileID: 5481552055102855814}
   - component: {fileID: 3956505154089424732}
+  - component: {fileID: 1109974296205620734}
   m_Layer: 5
   m_Name: Player
   m_TagString: Player
@@ -94,8 +95,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.925}
-  m_Size: {x: 1.2, y: 2.1}
+  m_Offset: {x: 0.00000011920929, y: 0.6955646}
+  m_Size: {x: 1.0279238, y: 1.5837705}
   m_Direction: 0
 --- !u!114 &3956505154089424732
 MonoBehaviour:
@@ -109,14 +110,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cf6358ee6855c2479d5f220e402e5c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 4
-  TargetPosition: {x: 0, y: 0, z: 0}
   currentTileObject: {fileID: 0}
-  currentTilePath: {fileID: 0}
   tilePosition:
     x: 0
     y: 0
     tileType: 0
+  latetilePosition:
+    x: 0
+    y: 0
+    tileType: 0
+--- !u!114 &1109974296205620734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3017043465987021318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec2001fea0caf924c89c1866d0d9a33d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0
+  TargetPathNode: {fileID: 0}
+  TargetPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &3377923529566638799
 GameObject:
   m_ObjectHideFlags: 0

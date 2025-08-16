@@ -49,7 +49,7 @@ public class GridSystem
                         tileObject.SetTilePosition(PosX, PosY , z);
                         DictionaryMap.Add(tileKey , tileObject);
                         tileObjectDictionary.Add(pos , tileObject);
-                        Debug.Log("Foi criado o tile:  " + tileObjectDictionary[pos].ToString());
+                        //Debug.Log("Foi criado o tile:  " + tileObjectDictionary[pos].ToString());
                     }
 
                 }

@@ -35,7 +35,7 @@ public class MouseController : MonoBehaviour
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 mousePos2D = new Vector2(mousePos.x , mousePos.y);
 
-        RaycastHit2D[] hits = Physics2D.RaycastAll(mousePos2D , Vector2.zero , float.MaxValue , 1 << 6);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(mousePos2D , Vector2.zero , float.MaxValue , 1 << 3);
         if (hits.Length > 0)
         {
             RaycastHit2D rayhit = hits.OrderByDescending(i => i.collider.transform.position.z).First();

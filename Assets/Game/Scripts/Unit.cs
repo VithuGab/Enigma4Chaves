@@ -5,29 +5,26 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    public int Speed;
-    public Vector3 TargetPosition;
-
-
 
     public TileObject currentTileObject;
-    public PathObject currentTilePath;
     public TilePosition tilePosition;
-    private void Awake() {
-        transform.position = transform.position;
-        TargetPosition = transform.position;
-        
-    }
+
+    public TilePosition latetilePosition = new TilePosition();
+    private bool StartBool = true;
+
+
     void Update()
     {
         //Move(TargetPosition)
         if (!FeetHit()) return;
-        Debug.Log(tilePosition.ToString());
-        if (!LevelGrid.Instance.GetTileObjectAtTilePosition(tilePosition).HasEnyUnit())
-        {
-            LevelGrid.Instance.AddUnitAtTilePosition(currentTileObject.GetTilePosition() , this);
-        }
+        if (StartBool) return;
 
+
+        if (latetilePosition != tilePosition)
+        {
+            LevelGrid.Instance.UnitMovedTilePosition(this , latetilePosition , tilePosition);
+            latetilePosition = tilePosition;
+        }
         //Mudando de tile
         /*TilePosition newTilePosition = LevelGrid.Instance.GetTilePosition( tilePosition );
         if (newTilePosition != tilePosition)
@@ -38,24 +35,9 @@ public class Unit : MonoBehaviour
         }*/
 
     }
-    public void Move(Vector3 TargetPosition) {
-        //Setar aqui os bagulhos
-        float stoopingDistance = 0.01f;
-        if (Vector3.Distance(transform.position , TargetPosition) > stoopingDistance)
-        {
-            Vector3 MovDirection = (TargetPosition - transform.position).normalized;
-
-            transform.position += MovDirection * Speed * Time.deltaTime;
-        }
-    }
-    private TilePosition CurrentTilePosition() {
-        if (FeetHit()) return tilePosition;
-        return new TilePosition(0 , 0);
-    }
-
-    public void SetPositionTarget(Vector3 TargetPosition) {
-        this.TargetPosition = TargetPosition;
-
+    private void LateUpdate() {
+        if (!StartBool) return;
+        FistFeetHit();
     }
     //Pegar mais de um para não bugar
     private bool FeetHit() {
@@ -75,9 +57,24 @@ public class Unit : MonoBehaviour
         return false;
 
     }
-    public PathObject GetPathNode() {
-        return currentTilePath;
+    public void FistFeetHit() {
+        Collider2D hits = Physics2D.OverlapCircle(transform.position + (Vector3.up * 0.04f) , 0.05f , 1 << 6);
+        if (hits == null) return;
+        tilePosition = hits.gameObject.GetComponent<TileObject>().GetTilePosition();
+        PathObject pathTilePosition = hits.gameObject.GetComponent<PathObject>();
+
+        if (pathTilePosition != null)
+        {
+            LevelGrid.Instance.AddUnitAtTilePosition(tilePosition , this);
+            latetilePosition = pathTilePosition.tilePosition;
+            StartBool = false;
+        }
     }
+    public TilePosition CurrentTilePosition() {
+        if (FeetHit()) return tilePosition;
+        return new TilePosition(0 , 0);
+    }
+
     private void OnDrawGizmos() {
         Gizmos.color = Color.red;
         Gizmos.DrawSphere(transform.position + (Vector3.up * 0.05f) , 0.09f);

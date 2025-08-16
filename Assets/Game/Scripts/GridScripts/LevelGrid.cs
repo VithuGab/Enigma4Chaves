@@ -10,7 +10,7 @@ public class LevelGrid : MonoBehaviour {
     private GridSystem gridSystem;
     public static LevelGrid Instance;
 
-    //public event EventHandler OnAnyUnitMovedGridPosition;
+    public event EventHandler OnAnyUnitMovedGridPosition;
     private void Awake() {
         if (Instance != null)
         {
@@ -19,12 +19,8 @@ public class LevelGrid : MonoBehaviour {
             return;
         }
         Instance = this;
-    }
-    void Start() {
-       
         gridSystem = new GridSystem(TilePrefab , tileMapCombat , this.transform);
-    }
-    
+    } 
 
     public List<Unit> GetUnitListAtTilePosition(TilePosition gridPosition) {
         TileObject tileObject = gridSystem.GetTileObject(gridPosition);
@@ -33,10 +29,11 @@ public class LevelGrid : MonoBehaviour {
     public void UnitMovedTilePosition(Unit unit , TilePosition fromPosition , TilePosition toGridPosition) {
         RemoveUnitAtTilePosition(fromPosition , unit);
         AddUnitAtTilePosition(toGridPosition , unit);
-        //OnAnyUnitMovedGridPosition?.Invoke(this , EventArgs.Empty);
+        Debug.Log($"A unidade: {unit} foi movida da posição {fromPosition} para a {toGridPosition}");
+        OnAnyUnitMovedGridPosition?.Invoke(this , EventArgs.Empty);
     }
     public void RemoveUnitAtTilePosition(TilePosition gridPosition , Unit unit) {
-        TileObject tileObject = gridSystem.GetTileObject(gridPosition);
+        TileObject tileObject = gridSystem.GetTileObject(gridPosition);       
         tileObject.RemoveUnit(unit);
     }
     public void AddUnitAtTilePosition(TilePosition tilePosition , Unit unit) {

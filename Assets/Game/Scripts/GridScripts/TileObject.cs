@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class TileObject : MonoBehaviour {
 
-    [SerializeField] private TilePosition tilePosition;   
-    private SpriteRenderer spriteRenderer; 
+    [SerializeField] private TilePosition tilePosition;    
 
     private List<Unit> unitList;
     private int ZPosition;
@@ -12,28 +11,17 @@ public class TileObject : MonoBehaviour {
         unitList = new List<Unit>();
     }
     private void Start() {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-    }
-    private void Update() {
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            Hide();
-        }
-    }
-   
-    public void Show() {
-        spriteRenderer.color = new Color(1 , 1 , 1 , 1);
-    }
-    public void Hide() {
-        spriteRenderer.color = new Color(1 , 1 , 1 , 0);
+        
     }
     #region Unit Manager
     public void AddUnit(Unit unit) {
-       
+       if (unit == null) 
+            unitList = new List<Unit>();
         unitList.Add(unit);
     }
     public void RemoveUnit(Unit unit) {
+        if (unit == null)
+            unitList = new List<Unit>();
         unitList.Remove(unit);
     }
     public bool HasEnyUnit() {
