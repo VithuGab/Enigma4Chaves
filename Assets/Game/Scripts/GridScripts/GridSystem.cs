@@ -1,60 +1,66 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 
 public class GridSystem 
 {
-    public Tilemap tilemap;   
-    private TileObject[,] tileObjectsArray;
+    public Tilemap tilemap;
     public Dictionary<Vector2Int , TileObject> DictionaryMap;
+    private TileObject[,] tileObjectArray;
     private Dictionary<TilePosition , TileObject> tileObjectDictionary;
 
 
     public GridSystem(Transform GridPrefab , Tilemap tileMap , Transform GameObjectParrent) {
         this.tilemap = tileMap;
-        Tilemap CurrentTilemap = tileMap.GetComponent<Tilemap>();
-        BoundsInt MBounds = CurrentTilemap.cellBounds;
-        int PosX = MBounds.x;
-        int PosY = MBounds.y;
-
+        //Ver isso cetitnho
+        var tileMaps = tilemap.transform.GetComponentsInChildren<Tilemap>().OrderByDescending(x => x.GetComponent<TilemapRenderer>().sortingOrder);
         DictionaryMap = new Dictionary<Vector2Int , TileObject>();
         tileObjectDictionary = new Dictionary<TilePosition , TileObject>();
-        for (int z = MBounds.max.z; z > MBounds.min.z; z--)
+
+        foreach (var tm in tileMaps)
         {
-            for (int y = MBounds.min.y; y < MBounds.max.y; y++)
+            BoundsInt bounds = tm.cellBounds;
+
+            for (int z = bounds.max.z; z >= bounds.min.z; z--)
             {
-                for (int x = MBounds.min.x; x < MBounds.max.x; x++)
+                for (int y = bounds.min.y; y < bounds.max.y; y++)
                 {
-                    var tileVector3int = new Vector3Int(x , y , z);
-                    var tileKey = new Vector2Int(y , x);
-
-                    if (CurrentTilemap.HasTile(tileVector3int) && !DictionaryMap.ContainsKey(tileKey))
+                    for (int x = bounds.min.x; x < bounds.max.x; x++)
                     {
-                        var Tile = GameObject.Instantiate(GridPrefab , GameObjectParrent);
-                        var InstatieteVar = CurrentTilemap.GetCellCenterWorld(tileVector3int);
+                        //Condições para não criar o tile aqui
+                        if (z == -1 /*&& ignoreBottomTiles*/)
+                            return;
 
+                        if (tm.HasTile(new Vector3Int(x , y , z)))
+                        {
+                            if (!DictionaryMap.ContainsKey(new Vector2Int(x , y)))
+                            {
+                                Vector3Int Vec3 = new Vector3Int(x , y , z);
+                                Vector2Int Vec2 = new Vector2Int(x , y);
+                                var overlayTile = GameObject.Instantiate(GridPrefab , GameObjectParrent);
+                                var cellWorldPosition = tm.GetCellCenterWorld(Vec3);
+                                overlayTile.transform.position = new Vector3(cellWorldPosition.x , cellWorldPosition.y , cellWorldPosition.z + 1);
+                                overlayTile.GetComponent<SpriteRenderer>().sortingOrder = tm.GetComponent<TilemapRenderer>().sortingOrder;
+                                overlayTile.gameObject.GetComponent<TileObject>().SetTilePosition(x , y , z);
 
+                                //Tirar o "Vec2"
+                                TilePosition pos = new TilePosition(Vec2.x , Vec2.y);
+                                TileObject tileObject = overlayTile.GetComponent<TileObject>();
+                                tileObject.SetTilePosition(Vec2.x , Vec2.y , z);
+                                DictionaryMap.Add(Vec2 , tileObject);
+                                tileObjectDictionary.Add(pos , tileObject);
+                                Debug.Log("Foi criado o tile:  " + tileObjectDictionary[pos].ToString());
 
-                        Tile.transform.position = new Vector3(InstatieteVar.x , InstatieteVar.y , InstatieteVar.z + 1);
-                        Tile.GetComponent<SpriteRenderer>().sortingOrder = CurrentTilemap.GetComponent<TilemapRenderer>().sortingOrder + 1;
-                        PosX++;
-                        PosY++;
-
-
-
-                        TilePosition pos = new TilePosition(PosX , PosY);
-                        TileObject tileObject = Tile.GetComponent<TileObject>();
-                        tileObject.SetTilePosition(PosX, PosY , z);
-                        DictionaryMap.Add(tileKey , tileObject);
-                        tileObjectDictionary.Add(pos , tileObject);
-                        //Debug.Log("Foi criado o tile:  " + tileObjectDictionary[pos].ToString());
+                            }
+                        }
                     }
-
                 }
             }
         }
+
     }
     public TileObject GetTileObject(TilePosition tile) {
         if (tileObjectDictionary.ContainsKey(tile))
@@ -64,7 +70,6 @@ public class GridSystem
         return null;
 
     }
-    //Servirá para saber o limite da grid (Mudar o nome da função ta pais :/)
     public TilePosition GetTilePosition(TilePosition tile) {
         if (tileObjectDictionary.ContainsKey(tile))
         {

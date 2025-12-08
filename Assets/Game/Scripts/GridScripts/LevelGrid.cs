@@ -41,6 +41,7 @@ public class LevelGrid : MonoBehaviour {
         tileObject.AddUnit(unit);
     }
 
+    public GridSystem GetGridSystem() => gridSystem;
     public TileObject GetTileObjectAtTilePosition(TilePosition tilePosition) => gridSystem.GetTileObject(tilePosition);
     public Tilemap GetTilemap() => tileMapCombat;
        

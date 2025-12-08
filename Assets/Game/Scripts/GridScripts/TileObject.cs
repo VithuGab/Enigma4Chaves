@@ -7,11 +7,9 @@ public class TileObject : MonoBehaviour {
 
     private List<Unit> unitList;
     private int ZPosition;
+    public PathObject pathObject;
     private void Awake() {
         unitList = new List<Unit>();
-    }
-    private void Start() {
-        
     }
     #region Unit Manager
     public void AddUnit(Unit unit) {

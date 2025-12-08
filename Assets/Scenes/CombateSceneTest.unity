@@ -1574,6 +1574,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &185247624 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3956505154089424732, guid: cbf33b74d16ac1e458e6ba4610d024d9, type: 3}
+  m_PrefabInstance: {fileID: 1037149425}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cf6358ee6855c2479d5f220e402e5c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &187708742
 GameObject:
   m_ObjectHideFlags: 0
@@ -1584,7 +1595,7 @@ GameObject:
   m_Component:
   - component: {fileID: 187708743}
   m_Layer: 0
-  m_Name: ======GRID======
+  m_Name: ======TileMaps======
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2197,6 +2208,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1109974296205620734, guid: cbf33b74d16ac1e458e6ba4610d024d9, type: 3}
+      propertyPath: speed
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2716332590248169398, guid: cbf33b74d16ac1e458e6ba4610d024d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -7.63
@@ -2262,13 +2277,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1109974296205620734, guid: cbf33b74d16ac1e458e6ba4610d024d9, type: 3}
+      propertyPath: speed
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2716332590248169398, guid: cbf33b74d16ac1e458e6ba4610d024d9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.47
+      value: -2.52
       objectReference: {fileID: 0}
     - target: {fileID: 2716332590248169398, guid: cbf33b74d16ac1e458e6ba4610d024d9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.69
+      value: 3.24
       objectReference: {fileID: 0}
     - target: {fileID: 2716332590248169398, guid: cbf33b74d16ac1e458e6ba4610d024d9, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2421,6 +2440,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8014750b46176004fb78333d3ce3e672, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  overLayerTile: {fileID: 0}
+  unit: {fileID: 185247624}
 --- !u!1 &1931834192
 GameObject:
   m_ObjectHideFlags: 0
@@ -2599,7 +2620,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e76b29bc5e13334ab00f4eb56bbed78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedUnit: {fileID: 0}
+  selectedUnit: {fileID: 185247624}
 --- !u!1 &2008831455
 GameObject:
   m_ObjectHideFlags: 0
@@ -2631,6 +2652,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2057871363
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2057871364}
+  - component: {fileID: 2057871365}
+  m_Layer: 0
+  m_Name: Pathfinder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2057871364
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2057871363}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.1390982, y: 1.9641576, z: -9.940808}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2057871365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2057871363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29a4d99da85c6343ba5bc8a460b195e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -2644,6 +2709,7 @@ SceneRoots:
   - {fileID: 651715102}
   - {fileID: 1830389573}
   - {fileID: 1948652501}
+  - {fileID: 2057871364}
   - {fileID: 2008831456}
   - {fileID: 1037149425}
   - {fileID: 1028408825}

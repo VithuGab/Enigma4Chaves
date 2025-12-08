@@ -15,7 +15,6 @@ public class PathObject : MonoBehaviour {
     //Heranças do tile
     private TileObject currentLinkedTile;
     public TilePosition tilePosition;
-    private GridSystem gridSystem;
     private int ZPosition;
     private int tileLayer;
 
@@ -59,7 +58,7 @@ public class PathObject : MonoBehaviour {
     public bool GetIsNotWalkable() => isBlocked;
     public float GetZPosition() => ZPosition;
     public int GetTileLayer() => tileLayer;
-
+    
 
     //TUDO: Criar uma gizmo para saber qual tile esta blokeado
 

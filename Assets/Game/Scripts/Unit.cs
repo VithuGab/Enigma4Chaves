@@ -7,11 +7,10 @@ public class Unit : MonoBehaviour
 {
 
     public TileObject currentTileObject;
-    public TilePosition tilePosition;
+    public TilePosition tilePosition = new TilePosition();
 
     public TilePosition latetilePosition = new TilePosition();
     private bool StartBool = true;
-
 
     void Update()
     {
@@ -25,14 +24,6 @@ public class Unit : MonoBehaviour
             LevelGrid.Instance.UnitMovedTilePosition(this , latetilePosition , tilePosition);
             latetilePosition = tilePosition;
         }
-        //Mudando de tile
-        /*TilePosition newTilePosition = LevelGrid.Instance.GetTilePosition( tilePosition );
-        if (newTilePosition != tilePosition)
-        {
-            //Mudou de Tile
-            LevelGrid.Instance.UnitMovedTilePosition(this , tilePosition , CurrentTilePosition());
-            Debug.Log("Mudou de tile");
-        }*/
 
     }
     private void LateUpdate() {
@@ -80,4 +71,5 @@ public class Unit : MonoBehaviour
         Gizmos.DrawSphere(transform.position + (Vector3.up * 0.05f) , 0.09f);
 
     }
+    public TilePosition GetTilePosition() => tilePosition;
 }

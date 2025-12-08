@@ -165,6 +165,7 @@ MonoBehaviour:
     x: 0
     y: 0
     tileType: 0
+  pathObject: {fileID: -5116398263785302284}
 --- !u!114 &-5116398263785302284
 MonoBehaviour:
   m_ObjectHideFlags: 0
